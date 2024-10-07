@@ -8,6 +8,7 @@ public class TextBox : MonoBehaviour
     [SerializeField]
     [TextArea]
     private List<string> textLines;
+
     private int lineIndex;
     private bool hasStarted;
     private TMP_Text text;
@@ -18,6 +19,19 @@ public class TextBox : MonoBehaviour
         text = GetComponent<TMP_Text>();
         group = GetComponent<CanvasGroup>();
         group.alpha = 0f;
+    }
+
+    public void SetChosenWord()
+    {
+        string chosenWord = WordCardsManager.Instance.GetWordAtIndex(0);
+        if (chosenWord != null)
+        {
+            textLines[1] = chosenWord;
+        }
+        else
+        {
+            Debug.LogWarning("Chosen word is null or textLines array does not have an index 1.");
+        }
     }
 
     public void StartText() {
@@ -31,12 +45,15 @@ public class TextBox : MonoBehaviour
         else if (lineIndex < textLines.Count)
         {
             text.SetText(textLines[lineIndex++]);
+            SetChosenWord();
         }
         else { 
             group.alpha = 0f;
             hasStarted = false;
         }
     }
+
+    
 
       
 }
