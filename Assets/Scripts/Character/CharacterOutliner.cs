@@ -20,7 +20,7 @@ public class CharacterOutliner : MonoBehaviour
     {
         if (characterRenderer != null && outlineMaterial != null && characterRenderer.material != outlineMaterial)
         {
-            Debug.LogWarning("Material has been set");
+            //Debug.LogWarning("Material has been set");
             characterRenderer.material = outlineMaterial;
         }
     }

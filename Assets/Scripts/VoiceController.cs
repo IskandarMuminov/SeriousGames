@@ -8,36 +8,90 @@ using UnityEngine.Windows.Speech;
 public class VoiceController : MonoBehaviour
 {
     private KeywordRecognizer keywordRecognizer;
-    [SerializeField] private Dictionary<string,Action> actions = new Dictionary<string,Action>();
-    [SerializeField] private GameObject player;
+    private List<string> previousWordList = new List<string>();
 
-    // Start is called before the first frame update
     void Start()
     {
-        /*actions.Add("up", Up);
-        actions.Add("down", Down);*/
+        UpdateKeywordRecognizer();
+    }
 
-        keywordRecognizer = new KeywordRecognizer(actions.Keys.ToArray());
-        keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
+    void Update()
+    {
+        // Continuously check for updates to the word list
+        var currentWordList = WordCardsManager.Instance.GetWordList();
 
-        keywordRecognizer.Start();
+        // Check if the word list has changed
+        if (!currentWordList.SequenceEqual(previousWordList))
+        {
+            Debug.Log("Word list has changed, updating KeywordRecognizer...");
+            UpdateKeywordRecognizer();
+        }
+    }
 
+    private void UpdateKeywordRecognizer()
+    {
+        // Stop the existing keyword recognizer if it's running
+        if (keywordRecognizer != null && keywordRecognizer.IsRunning)
+        {
+            keywordRecognizer.Stop();
+            keywordRecognizer.OnPhraseRecognized -= RecognizedSpeech;
+            keywordRecognizer.Dispose();
+        }
+
+        // Get the updated word list
+        var newWordList = WordCardsManager.Instance.GetWordList().ToArray();
+        previousWordList = WordCardsManager.Instance.GetWordList().ToList();
+
+        // Initialize a new keyword recognizer with the updated word list
+        if (newWordList.Length > 0)
+        {
+            keywordRecognizer = new KeywordRecognizer(newWordList);
+            keywordRecognizer.OnPhraseRecognized += RecognizedSpeech;
+            keywordRecognizer.Start();
+            Debug.Log("KeywordRecognizer updated with new words.");
+        }
     }
 
     private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
     {
-        Debug.Log(speech.text);
-        actions[speech.text].Invoke();
+        Debug.Log("Recognized: " + speech.text);
+
+        // Check if the recognized word matches any word from GetWordList
+        if (WordCardsManager.Instance.GetWordList().Contains(speech.text))
+        {
+            Debug.Log("Word Matched: " + speech.text);
+            // Call a method or perform an action
+        }
+        else
+        {
+            Debug.Log("No match found for: " + speech.text);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ActivateMicrophone()
     {
-        
+        if (keywordRecognizer != null && !keywordRecognizer.IsRunning)
+        {
+            keywordRecognizer.Start();
+            Debug.Log("Microphone activated.");
+        }
     }
 
-/*    public void GenerateWord() {
-        actions.
+    public void DeactivateMicrophone()
+    {
+        if (keywordRecognizer != null && keywordRecognizer.IsRunning)
+        {
+            keywordRecognizer.Stop();
+            Debug.Log("Microphone deactivated.");
+        }
     }
-*/
+
+    private void OnDestroy()
+    {
+        if (keywordRecognizer != null)
+        {
+            keywordRecognizer.OnPhraseRecognized -= RecognizedSpeech;
+            keywordRecognizer.Dispose();
+        }
+    }
 }

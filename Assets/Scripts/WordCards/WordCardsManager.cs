@@ -7,29 +7,18 @@ public class WordCardsManager : MonoBehaviour
 {
     public static WordCardsManager Instance { get; private set; }
 
-    [SerializeField] private WordCard wordCard;
-    private TextMeshProUGUI wordDisplayText;
-
-    private List<string> wordList = new List<string>();
+    private List<string> wordList;
+    private void Awake()
+    {
+        wordList = new List<string>();
+    }
 
     private void Start()
     {
         Instance = this;
-        wordDisplayText = GetComponentInChildren<TextMeshProUGUI>();
-        SetWordCardText();
 
     }
 
-    public void SetWordCardText()
-    {
-        wordDisplayText.text = wordCard.GetWord();
-    }
-
-    public void AddWordInList(string word)
-    {
-        word = wordCard.GetWord();
-        wordList.Add(word);
-    }
 
     public string GetWordAtIndex(int wordIndex)
     {
@@ -42,5 +31,9 @@ public class WordCardsManager : MonoBehaviour
             Debug.LogWarning("Invalid word index: " + wordIndex);
             return null;
         }
+    }
+
+    public List<string> GetWordList() {
+        return wordList;
     }
 }

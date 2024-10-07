@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9caf95523475d7845bd0aaade96d9622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wordCanvas: {fileID: 0}
 --- !u!65 &15122232652579667
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -185,12 +186,12 @@ PrefabInstance:
     - target: {fileID: 4819489538366387487, guid: cc6a00fd2e2e81040b0bf31590e9dd7b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.89
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4819489538366387487, guid: cc6a00fd2e2e81040b0bf31590e9dd7b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.56
+      value: 0.697
       objectReference: {fileID: 0}
     - target: {fileID: 4819489538366387487, guid: cc6a00fd2e2e81040b0bf31590e9dd7b,
         type: 3}
