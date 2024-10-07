@@ -11,26 +11,25 @@ public class CharacterOutliner : MonoBehaviour
 
     private void Start()
     {
-        characterRenderer = GetComponent<SpriteRenderer>();
+        characterRenderer = GetComponentInChildren<SpriteRenderer>();
         defaultMaterial = characterRenderer.material;
     }
 
 
     public void SetOutline()
     {
-        if (characterRenderer != null && outlineMaterial != null)
+        if (characterRenderer != null && outlineMaterial != null && characterRenderer.material != outlineMaterial)
         {
+            Debug.LogWarning("Material has been set");
             characterRenderer.material = outlineMaterial;
-            Debug.Log(gameObject.name + " outline applied.");
         }
     }
 
     public void ResetOutline()
     {
-        if (characterRenderer != null && characterRenderer != null)
+        if (characterRenderer != null && defaultMaterial != null && characterRenderer.material != defaultMaterial)
         {
             characterRenderer.material = defaultMaterial;
-            Debug.Log(gameObject.name + " outline removed.");
         }
     }
 }

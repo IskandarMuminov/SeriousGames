@@ -11,12 +11,14 @@ public class Interactor : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float interactRange;
-    
+
+    [SerializeField] private CharacterOutliner characterOutliner;
     [SerializeField] private float outlineSetVisibleRange;
+
 
     private void Update()
     {
-       // InteractionOutline();
+       InteractionOutline();
     }
 
     public void InteractOnTap() {
@@ -50,20 +52,24 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    /*public void InteractionOutline()
+    public void InteractionOutline()
     {
         Ray r = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         Debug.DrawRay(r.origin, r.direction * interactRange, Color.green, 1f);
 
         if (Physics.Raycast(r, out RaycastHit hitInfo, outlineSetVisibleRange))
         {
-            if (hitInfo.collider.gameObject.TryGetComponent(out CharacterOutliner characterOutliner))
+            if (hitInfo.collider.gameObject.TryGetComponent(out IInteractible interactObj))
             {
                 characterOutliner.SetOutline();
             }
         }
+
+        else {
+            characterOutliner.ResetOutline();
+        }
     }
-*/
-   
+
+
 
 }
