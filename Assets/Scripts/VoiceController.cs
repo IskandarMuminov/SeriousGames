@@ -10,6 +10,7 @@ public class VoiceController : MonoBehaviour
     private KeywordRecognizer keywordRecognizer;
     private List<string> previousWordList = new List<string>();
 
+
     void Start()
     {
         UpdateKeywordRecognizer();
@@ -60,7 +61,7 @@ public class VoiceController : MonoBehaviour
         if (WordCardsManager.Instance.GetWordList().Contains(speech.text))
         {
             Debug.Log("Word Matched: " + speech.text);
-            // Call a method or perform an action
+            
         }
         else
         {
