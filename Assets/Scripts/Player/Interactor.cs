@@ -18,39 +18,45 @@ public class Interactor : MonoBehaviour
 
     private void Update()
     {
-       InteractionOutline();
+        //InteractionOutline();
+        InteractOnTap();
     }
 
-    public void InteractOnTap() {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+    public void InteractOnTap()
+    {
+        // Check if the player tapped the screen or pressed the E key
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.E))
         {
             Ray r;
 
+            // Determine the ray based on the input type
             if (Input.touchCount > 0)
             {
+                // For touch, cast ray from the touch position
                 Touch touch = Input.GetTouch(0);
                 r = playerCamera.ScreenPointToRay(touch.position);
             }
             else
             {
-                r = playerCamera.ScreenPointToRay(Input.mousePosition);
+                // For keypress (E), cast ray from the center of the screen
+                r = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
             }
 
-          
+            // Draw debug ray for visualization in the editor
             Debug.DrawRay(r.origin, r.direction * interactRange, Color.green, 1f);
 
-            // perform the raycast to detect objects with colliders
+            // Perform the raycast to detect objects within range
             if (Physics.Raycast(r, out RaycastHit hitInfo, interactRange))
             {
-                // check if the object hit has an IInteractible component
+                // Check if the object hit has an IInteractible component
                 if (hitInfo.collider.gameObject.TryGetComponent(out IInteractible interactObj))
                 {
-                    interactObj.Interact(); 
+                    interactObj.Interact();
                 }
-
             }
         }
     }
+
 
     public void InteractionOutline()
     {
@@ -65,7 +71,8 @@ public class Interactor : MonoBehaviour
             }
         }
 
-        else {
+        else
+        {
             characterOutliner.ResetOutline();
         }
     }

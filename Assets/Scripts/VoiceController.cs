@@ -9,11 +9,12 @@ public class VoiceController : MonoBehaviour
 {
     private KeywordRecognizer keywordRecognizer;
     private List<string> previousWordList = new List<string>();
-
+    private RewardCaption rewardCaption;
 
     void Start()
     {
         UpdateKeywordRecognizer();
+        rewardCaption = GetComponent<RewardCaption>();
     }
 
     void Update()
@@ -60,6 +61,7 @@ public class VoiceController : MonoBehaviour
         // Check if the recognized word matches any word from GetWordList
         if (WordCardsManager.Instance.GetWordList().Contains(speech.text))
         {
+            rewardCaption.ShowRewardCaption();
             Debug.Log("Word Matched: " + speech.text);
             
         }

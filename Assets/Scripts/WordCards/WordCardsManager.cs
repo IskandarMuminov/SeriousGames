@@ -20,17 +20,14 @@ public class WordCardsManager : MonoBehaviour
     }
 
 
-    public string GetWordAtIndex(int wordIndex)
+    public string GetLatestWord()
     {
-        if (wordIndex >= 0 && wordIndex < wordList.Count)
+        if (wordList != null && wordList.Count > 0)
         {
-            return wordList[wordIndex];
+            return wordList[wordList.Count - 1]; 
         }
-        else
-        {
-            Debug.LogWarning("Invalid word index: " + wordIndex);
-            return null;
-        }
+        return null;
+
     }
 
     public List<string> GetWordList() {

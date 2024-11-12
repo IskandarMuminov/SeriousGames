@@ -14,6 +14,7 @@ public class TextBox : MonoBehaviour
     private TMP_Text text;
     private CanvasGroup group;
 
+
     private void Start()
     {
         text = GetComponent<TMP_Text>();
@@ -23,7 +24,7 @@ public class TextBox : MonoBehaviour
 
     public void SetChosenWord()
     {
-        string chosenWord = WordCardsManager.Instance.GetWordAtIndex(0);
+        string chosenWord = WordCardsManager.Instance.GetLatestWord();
         if (chosenWord != null)
         {
             textLines[1] = chosenWord;
